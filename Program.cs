@@ -42,7 +42,7 @@ class Program {
     static void Menu() {
         Console.Clear();
 
-        Console.WriteLine($"It's {currentHero.characterName}'s turn!");
+        Console.WriteLine($"It's {currentHero.CharacterName}'s turn!");
         Console.WriteLine("--------------------------------------------------------------------");
         Console.WriteLine("i - write out inventory");
         Console.WriteLine("s - write out your hero stats");
@@ -65,7 +65,7 @@ class Program {
                 break;
             case ConsoleKey.A:
                 currentHero.Attack(nextHero, false);
-                if (currentHero.health == 0 || nextHero.health == 0) { return; }
+                if (currentHero.Health == 0 || nextHero.Health == 0) { return; }
                 SwitchTurn();
                 break;
             case ConsoleKey.C:
@@ -97,9 +97,11 @@ class Program {
 
 
 public class Character {
-    public string characterName; // Use get set
+    private string characterName;
+    public string CharacterName { get { return characterName; } }
+    private int health;
+    public int Health { get { return health; } set { health = value; } }
     private int maxHealth;
-    public int health; // Use get set
 
     // Inventory settings
     private int maxWeight;
@@ -132,35 +134,37 @@ public class Character {
 
     public void AddToInv(Item item) {
         // Count errors
-        if (item.itemCount > 1 && !item.isStackable) {
-            Console.WriteLine($"Error: The {item.name} is not stackable, you can't add multiple of them at one time!");
+        if (item.ItemCount > 1 && !item.IsStackable) {
+            Console.WriteLine($"Error: The {item.Name} is not stackable, you can't add multiple of them at one time!");
             return;
-        } else if (item.itemCount <= 0) {
+        } else if (item.ItemCount <= 0) {
             Console.WriteLine($"Error: You can't add negative / zero ammount of items!");
             return;
         }
 
         // Weight errors
-        if (currentWeight + item.weight * item.itemCount > maxWeight) {
+        if (currentWeight + item.Weight * item.ItemCount > maxWeight) {
             Console.WriteLine($"Error: The {characterName} can't hold this item(s), it is too heavy!");
             return;
-        } else if (item.weight < 0) {
+        } else if (item.Weight < 0) {
             Console.WriteLine($"Error: You can't add an item with negative weight!");
             return;
         }
 
         // Checks whether the (stackable) item is alrady in the inventory
         foreach (Item invItem in characterInv) {
-            if (item.name == invItem.name && item.isStackable) {
-                invItem.itemCount += item.itemCount;
+            if (item.Name == invItem.Name && item.IsStackable) {
+                invItem.ItemCount += item.ItemCount;
                 return;
             }
         }
 
         // Adds the item to the inventory
         characterInv.Add(item);
-        currentWeight += item.weight * item.itemCount;
-        //Console.WriteLine($"Added {item.name} ({item.itemCount} with weight of {item.itemCount * item.weight}), the current weight is {currentWeight}");
+        currentWeight += item.Weight * item.ItemCount;
+        
+        // Item added - debug purposes
+        // Console.WriteLine($"Added {item.name} ({item.itemCount} with weight of {item.itemCount * item.weight}), the current weight is {currentWeight}");
     }
 
     public void WriteInv() {
@@ -171,10 +175,10 @@ public class Character {
 
         Console.WriteLine("These are the items in your inventory");
         foreach (Item invItem in characterInv) {
-            if (invItem.isStackable) {
-                Console.WriteLine($"- {invItem.name} ({invItem.itemCount})");
+            if (invItem.IsStackable) {
+                Console.WriteLine($"- {invItem.Name} ({invItem.ItemCount})");
             } else {
-                Console.WriteLine($"- {invItem.name} (non-stackable)");
+                Console.WriteLine($"- {invItem.Name} (non-stackable)");
             }
         }
     }
@@ -183,16 +187,16 @@ public class Character {
         if (leftHand == null) {
             Console.WriteLine("No weapon equiped");
         } else {
-            Console.Write($"Weapon equiped: {leftHand.name} ");
-            if (leftHand.isTwoHanded) { Console.WriteLine("(two-handed > cannot equip shield with this weapon)"); }
+            Console.Write($"Weapon equiped: {leftHand.Name} ");
+            if (leftHand.IsTwoHanded) { Console.WriteLine("(two-handed > cannot equip shield with this weapon)"); }
             else { Console.WriteLine(); }
         }
 
         if (rightHand == null) { Console.WriteLine("No shield equiped"); }
-        else { Console.WriteLine($"Shield equiped: {rightHand.name}"); }
+        else { Console.WriteLine($"Shield equiped: {rightHand.Name}"); }
 
         if (chest == null) { Console.WriteLine("No armor equiped"); }
-        else { Console.WriteLine($"Armor equiped: {chest.name}"); }
+        else { Console.WriteLine($"Armor equiped: {chest.Name}"); }
 
         Console.WriteLine();
     }
@@ -208,9 +212,9 @@ public class Character {
                 if (invItem == leftHand || invItem == rightHand || invItem == chest) { continue; }
 
                 itemSelection.Add(invItem);
-                Console.Write($"{++index} - {invItem.name} ");
+                Console.Write($"{++index} - {invItem.Name} ");
 
-                if (invItem.isTwoHanded) {
+                if (invItem.IsTwoHanded) {
                     Console.WriteLine("(two-handed)");
                 } else if (invItem.GetType() == typeof(Weapon)) {
                     Console.WriteLine("(one-handed)");
@@ -230,15 +234,15 @@ public class Character {
         if (int.TryParse(Console.ReadLine(), out num) && num >= 0 && num <= index) {
             if (itemSelection.ElementAt(num).GetType() == typeof(Weapon)) {
                 leftHand = itemSelection.ElementAt(num);
-                if (itemSelection.ElementAt(num).isTwoHanded) {
+                if (itemSelection.ElementAt(num).IsTwoHanded) {
                     rightHand = null!;
                 }
-            } else if (itemSelection.ElementAt(num).dType == DefenseType.Shield) {
+            } else if (itemSelection.ElementAt(num).DType == DefenseType.Shield) {
                 rightHand = itemSelection.ElementAt(num);
-                if (leftHand != null && leftHand.isTwoHanded) {
+                if (leftHand != null && leftHand.IsTwoHanded) {
                     leftHand = null!;
                 }
-            } else if (itemSelection.ElementAt(num).dType == DefenseType.Armor) {
+            } else if (itemSelection.ElementAt(num).DType == DefenseType.Armor) {
                 chest = itemSelection.ElementAt(num);
             }
 
@@ -252,14 +256,14 @@ public class Character {
 
     public void Attack(Character aim, bool isRecursion) {
         int absorptionPercent = 0;
-        if (aim.chest != null) { absorptionPercent += aim.chest.absorption; }
-        if (aim.rightHand != null) { absorptionPercent += aim.rightHand.absorption; }
+        if (aim.chest != null) { absorptionPercent += aim.chest.Absorption; }
+        if (aim.rightHand != null) { absorptionPercent += aim.rightHand.Absorption; }
 
         Random rnd = new Random();
         int rndNum = rnd.Next(1, 6);
 
         int damageDealt = 0;
-        if (leftHand != null) { damageDealt = (int)(rndNum * leftHand.damage * (100 - absorptionPercent) / 100); }
+        if (leftHand != null) { damageDealt = (int)(rndNum * leftHand.Damage * (100 - absorptionPercent) / 100); }
         else { damageDealt = (int)(rndNum * 2 * (100 - absorptionPercent) / 100); }
 
         if (isRecursion) { damageDealt /= 2; }
@@ -279,12 +283,12 @@ public class Character {
 
         foreach (Item invItem in characterInv) {
             if (invItem.GetType() == typeof(Coin)) {
-                if (invItem.cType == CoinType.Copper) {
-                    copper = invItem.itemCount;
-                } else if (invItem.cType == CoinType.Silver) {
-                    silver = invItem.itemCount;
-                } else if (invItem.cType == CoinType.Gold) {
-                    gold = invItem.itemCount;
+                if (invItem.CType == CoinType.Copper) {
+                    copper = invItem.ItemCount;
+                } else if (invItem.CType == CoinType.Silver) {
+                    silver = invItem.ItemCount;
+                } else if (invItem.CType == CoinType.Gold) {
+                    gold = invItem.ItemCount;
                 }
 
                 if (gold != 0 && silver != 0 && copper != 0) { break; }
@@ -300,10 +304,14 @@ public class Character {
 }
 
 public class Item {
-    public string name;
-    public int weight;
-    public int itemCount;
-    public bool isStackable;
+    protected string name;
+    public string Name { get { return name; } }
+    protected int weight;
+    public int Weight { get { return weight; } set { weight = value; } }
+    protected int itemCount;
+    public int ItemCount { get { return itemCount; } set { itemCount = value; } }
+    protected bool isStackable;
+    public bool IsStackable { get { return isStackable; } }
 
     public Item(string _name, int _weight, int _itemCount, bool _isStackable) {
         name = _name;
@@ -313,21 +321,23 @@ public class Item {
     }
 
     // Weapon
-    public virtual int damage { get; set; }
-    public virtual bool isTwoHanded { get; set; }
+    protected virtual int damage { get; set; }
+    public virtual int Damage { get { return damage; } }
+    protected virtual bool isTwoHanded { get; set; }
+    public virtual bool IsTwoHanded { get { return isTwoHanded; } }
 
     // Defense
-    public virtual int absorption { get; set; }
-    public virtual DefenseType dType { get; set; }
+    protected virtual int absorption { get; set; }
+    public virtual int Absorption { get { return absorption; } set { absorption = value; } }
+    protected virtual DefenseType dType { get; set; }
+    public virtual DefenseType DType { get { return dType; } }
 
     // Coins
-    public virtual CoinType cType { get; set; }
+    protected virtual CoinType cType { get; set; }
+    public virtual CoinType CType { get { return cType; } }
 }
 
 public class Weapon : Item {
-    public override int damage { get; set; }
-    public override bool isTwoHanded { get; set; }
-
     public Weapon(string _name, int _weight, int _itemCount, bool _isStackable, int _damage, bool _isTwoHanded) : base(_name, _weight, _itemCount, _isStackable) {
         damage = _damage;
         isTwoHanded = _isTwoHanded;
@@ -336,9 +346,6 @@ public class Weapon : Item {
 
 public enum DefenseType { Shield, Armor }
 public class Defense : Item {
-    public override int absorption { get; set; }
-    public override DefenseType dType { get; set; }
-    
     public Defense(string _name, int _weight, int _itemCount, bool _isStackable, int _absorption, DefenseType _dType) : base(_name, _weight, _itemCount, _isStackable) {
         absorption = _absorption;
         dType = _dType;
@@ -347,8 +354,6 @@ public class Defense : Item {
 
 public enum CoinType { Copper, Silver, Gold }
 public class Coin : Item {
-    public override CoinType cType { get; set; }
-
     public Coin(string _name, int _weight, int _itemCount, bool _isStackable, CoinType _cType) : base(_name, _weight, _itemCount, _isStackable) {
         cType = _cType;
         isStackable = true;

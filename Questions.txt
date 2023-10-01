@@ -3,8 +3,21 @@ x	- do inventáře musí jít vložit jakýkoli item nezávisle na datovém typu
 x	- nebo si udělat jednotlivý inventář pro každý datový typ >> tohle je asi blbost i guess
 >>>	Polymorphism	
 
-x 	Může mít item váhu 0?
->	Ano
+x	Může mít item váhu 0?
+>>>	Ano
 
-x 	Musím unit testovat i metody, jejichž output závisí na randomizovaných hodnotách / inputu uživatele? (private properties / Console.ReadKey)
->	???
+x	Musím testovat i metody, jejichž output závisí na randomizovaných hodnotách / inputu uživatele? (private properties, kde nedává smysl, aby byl get set / Console.ReadKey, nebo Console.ReadLine())
+x	- Například metoda na změnu vybavení
+	  -> Character.ChangeEquipment()
+>>>	???
+
+x	Má být "class pro stohovatelné a nestohovatelné předměty" něco jako class pro Copper / Silver / Gold?
+x	- Vytvořím class která bude dědičná vůči class Item a bude mít nějakou specifickou metodu
+x	  -> Letter : Item > Read()
+x	  -> Food : Item > Eat()
+x	- Nebo to má být uděláno jinak?
+>>>	???
+
+x	Musí mít class Character hodnoty pro sílu, obratnost, atd.?
+x	- Nebo můžu attack, maxHP a ostatní ranodomizované hodnoty udělat kompleteně randomizované?
+>>>	???

@@ -5,7 +5,7 @@ namespace unit_tests;
 
 public class UnitTests {
     // AddToInv
-    [Fact]
+    [Fact] // Error
     public void MaxWeightOneItem() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -16,7 +16,7 @@ public class UnitTests {
         Assert.Equal("Error: The hero can't hold this item(s), it is too heavy!\n", stringWriter.ToString());
     }
 
-    [Fact]
+    [Fact] // Error
     public void MaxWeightMultipleItems() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -27,7 +27,7 @@ public class UnitTests {
         Assert.Equal("Error: The hero can't hold this item(s), it is too heavy!\n", stringWriter.ToString());
     }
 
-    [Fact]
+    [Fact] // Error
     public void MaxWeightMultipleRecords() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -39,7 +39,7 @@ public class UnitTests {
         Assert.Equal("Error: The hero can't hold this item(s), it is too heavy!\n", stringWriter.ToString());
     }
 
-    [Fact]
+    [Fact] // Error
     public void NegativeWeight() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -50,7 +50,7 @@ public class UnitTests {
         Assert.Equal("Error: You can't add an item with negative weight!\n", stringWriter.ToString());
     }
 
-    [Fact]
+    [Fact] // Error
     public void NegativeCount() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -61,7 +61,7 @@ public class UnitTests {
         Assert.Equal("Error: You can't add negative / zero ammount of items!\n", stringWriter.ToString());
     }
 
-    [Fact]
+    [Fact] // Error
     public void UnstackableItems() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -74,7 +74,7 @@ public class UnitTests {
 
 
     // WriteInv
-    [Fact]
+    [Fact] // Pass
     public void EmptyInventory() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -85,7 +85,7 @@ public class UnitTests {
         Assert.Equal("You have no items in your inventory at the moment\n", stringWriter.ToString());
     }
 
-    [Fact]
+    [Fact] // Pass
     public void StackableInvItems() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -100,7 +100,7 @@ public class UnitTests {
         Assert.Equal("These are the items in your inventory\n- genericItem (20)\n- genericItem2 (10)\n", stringWriter.ToString());
     }
 
-    [Fact]
+    [Fact] // Pass
     public void UnstackableInvItems() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -115,7 +115,7 @@ public class UnitTests {
 
 
     // AllMoney
-    [Fact]
+    [Fact] // Pass
     public void NoMoney() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -126,7 +126,7 @@ public class UnitTests {
         Assert.Equal("You have no money at the moment!\n", stringWriter.ToString());
     }
 
-    [Fact]
+    [Fact] // Pass
     public void OnlyGold() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
@@ -138,7 +138,7 @@ public class UnitTests {
         Assert.Equal("You have a total of 300 copper coins\n- 0 x copper\n- 0 x silver\n- 3 x gold\n", stringWriter.ToString());
     }
 
-    [Fact]
+    [Fact] // Pass
     public void AnyCoins() {
         StringWriter stringWriter = new StringWriter();
         Console.SetOut(stringWriter);
