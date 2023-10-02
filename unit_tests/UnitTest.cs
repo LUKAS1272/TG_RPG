@@ -61,17 +61,6 @@ public class UnitTests {
         Assert.Equal("Error: You can't add negative / zero ammount of items!\n", stringWriter.ToString());
     }
 
-    // [Fact] // Error
-    // public void UnstackableItems() {
-    //     StringWriter stringWriter = new StringWriter();
-    //     Console.SetOut(stringWriter);
-
-    //     Character hero = new Character("hero");
-    //     hero.AddToInv(new Item("genericItem", 1, 2, false)); // Error
-
-    //     Assert.Equal("Error: The genericItem is not stackable, you can't add multiple of them at one time!\n", stringWriter.ToString());
-    // }
-
 
     // WriteInv
     [Fact] // Pass
@@ -150,5 +139,38 @@ public class UnitTests {
         hero.AllMoney();
 
         Assert.Equal("You have a total of 420 copper coins\n- 20 x copper\n- 10 x silver\n- 3 x gold\n", stringWriter.ToString());
+    }
+
+
+    // WriteStats
+    [Fact] // Pass
+    public void EmptyInv() {
+        StringWriter stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+
+        Character hero = new Character("hero");
+        Random rnd = new Random(Program.rndSeed);
+        hero.WriteStats();
+
+        int maxHealth = rnd.Next(300, 501);
+        Assert.Equal($"Name: {hero.CharacterName}\nHero HP: {maxHealth} / {maxHealth}\nInventory weight: 0 / {rnd.Next(500, 751)}\n\nNo weapon equiped\nNo shield equiped\nNo armor equiped\n\n", stringWriter.ToString());
+    }
+
+    [Fact] // Pass
+    public void FullInv() {
+        StringWriter stringWriter = new StringWriter();
+        Console.SetOut(stringWriter);
+
+        Character hero = new Character("hero");
+        hero.AddToInv(new Stackable("genericItem", 15, 10));
+        hero.AddToInv(new Stackable("genericItem2", 10, 5));
+        hero.AddToInv(new Stackable("genericItem", 15, 10));
+        hero.AddToInv(new Stackable("genericItem2", 10, 5));
+        hero.AddToInv(new Item("genericItem3", 10));
+        Random rnd = new Random(Program.rndSeed);
+        hero.WriteStats();
+
+        int maxHealth = rnd.Next(300, 501);
+        Assert.Equal($"Name: {hero.CharacterName}\nHero HP: {maxHealth} / {maxHealth}\nInventory weight: 410 / {rnd.Next(500, 751)}\n\nNo weapon equiped\nNo shield equiped\nNo armor equiped\n\n", stringWriter.ToString());
     }
 }

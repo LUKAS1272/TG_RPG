@@ -6,12 +6,15 @@ using System.Text;
 namespace TGproject;
 
 // Character - name
-// Item - name, weight, itemCount, isStackable
-// Weapon - name, weight, itemCount, isStackable, damage, isTwoHanded
-// Defense - name, weight, itemCount, isStackable, absorption, DefenseType
-// Coin - name, weight, count, isStackable, CoinType
+// Item - name, weight
+// Stackable - name, weight, itemCount
+// Weapon - name, weight, damage, isTwoHanded
+// Defense - name, weight, absorption, DefenseType
+// Coin - name, weight, itemCount, isStackable, CoinType
  
-class Program {
+public class Program {
+    public static int rndSeed = new Random().Next(); // Seed for all random numbers > unit tests purpose
+
     static Character currentHero = new Character("mighty knight");
     static Character nextHero = new Character("cruel king");
 
@@ -100,6 +103,7 @@ class Program {
 public class Character {
     private string characterName;
     public string CharacterName { get { return characterName; } }
+    
     private int health;
     public int Health { get { return health; } set { health = value; } }
     private int maxHealth;
@@ -117,7 +121,7 @@ public class Character {
     public Character(string _characterName) {
         characterName = _characterName;
 
-        Random rnd = new Random();
+        Random rnd = new Random(Program.rndSeed);
         maxHealth = rnd.Next(300, 501);
         health = maxHealth;
 
@@ -126,8 +130,8 @@ public class Character {
 
     public void WriteStats() {
         Console.WriteLine($"Name: {characterName}");
-        Console.WriteLine($"Inventory weight: {currentWeight} / {maxWeight}");
         Console.WriteLine($"Hero HP: {health} / {maxHealth}");
+        Console.WriteLine($"Inventory weight: {currentWeight} / {maxWeight}");
 
         Console.WriteLine();
         WriteEquipment();
@@ -156,6 +160,7 @@ public class Character {
         foreach (Item invItem in characterInv) {
             if (item.Name == invItem.Name && item.IsStackable) {
                 invItem.ItemCountSet += item.ItemCountSet;
+                currentWeight += item.Weight * item.ItemCountGet;
                 return;
             }
         }
@@ -260,7 +265,7 @@ public class Character {
         if (aim.chest != null) { absorptionPercent += aim.chest.Absorption; }
         if (aim.rightHand != null) { absorptionPercent += aim.rightHand.Absorption; }
 
-        Random rnd = new Random();
+        Random rnd = new Random(Program.rndSeed);
         int rndNum = rnd.Next(1, 6);
 
         int damageDealt = 0;
