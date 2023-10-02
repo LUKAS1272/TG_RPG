@@ -17,22 +17,23 @@ class Program {
 
     static void Main(string[] args) {
         // First hero inventory init
-        currentHero.AddToInv(new Weapon("golden sword", 70, 1, false, 15, false));
-        currentHero.AddToInv(new Weapon("iron sword", 85, 1, false, 35, true));
-        currentHero.AddToInv(new Defense("iron shield", 90, 1, false, 35, DefenseType.Shield));
-        currentHero.AddToInv(new Defense("iron chestplate", 100, 1, false, 25, DefenseType.Armor));
-        currentHero.AddToInv(new Coin("", 0, 30, true, CoinType.Copper));
-        currentHero.AddToInv(new Coin("", 0, 2, true, CoinType.Silver));
-        currentHero.AddToInv(new Coin("", 0, 1, true, CoinType.Gold));
+        currentHero.AddToInv(new Weapon("golden sword", 70, 15, false));
+        currentHero.AddToInv(new Weapon("iron sword", 85, 35, true));
+        currentHero.AddToInv(new Defense("iron shield", 90, 35, DefenseType.Shield));
+        currentHero.AddToInv(new Defense("iron chestplate", 100, 25, DefenseType.Armor));
+        currentHero.AddToInv(new Coin("", 1, 30, CoinType.Copper));
+        currentHero.AddToInv(new Coin("", 10, 2, CoinType.Silver));
+        currentHero.AddToInv(new Coin("", 100, 1, CoinType.Gold));
+        currentHero.AddToInv(new Coin("", 1, 30, CoinType.Copper));
 
         // Second hero inventory init
-        nextHero.AddToInv(new Weapon("golden sword", 70, 1, false, 60, false));
-        nextHero.AddToInv(new Weapon("iron sword", 85, 1, false, 80, true));
-        nextHero.AddToInv(new Defense("iron shield", 90, 1, false, 90, DefenseType.Shield));
-        nextHero.AddToInv(new Defense("iron chestplate", 100, 1, false, 100, DefenseType.Armor));
-        nextHero.AddToInv(new Coin("", 0, 30, true, CoinType.Copper));
-        nextHero.AddToInv(new Coin("", 0, 2, true, CoinType.Silver));
-        nextHero.AddToInv(new Coin("", 0, 1, true, CoinType.Gold));
+        nextHero.AddToInv(new Weapon("golden sword", 70, 60, false));
+        nextHero.AddToInv(new Weapon("iron sword", 85, 80, true));
+        nextHero.AddToInv(new Defense("iron shield", 90, 90, DefenseType.Shield));
+        nextHero.AddToInv(new Defense("iron chestplate", 100, 100, DefenseType.Armor));
+        nextHero.AddToInv(new Coin("", 1, 30, CoinType.Copper));
+        nextHero.AddToInv(new Coin("", 10, 2, CoinType.Silver));
+        nextHero.AddToInv(new Coin("", 100, 1, CoinType.Gold));
 
         Console.WriteLine("\n\nPress any key to start the game!");
         Console.ReadKey();
@@ -134,16 +135,16 @@ public class Character {
 
     public void AddToInv(Item item) {
         // Count errors
-        if (item.ItemCount > 1 && !item.IsStackable) {
+        if (item.ItemCountGet > 1 && !item.IsStackable) {
             Console.WriteLine($"Error: The {item.Name} is not stackable, you can't add multiple of them at one time!");
             return;
-        } else if (item.ItemCount <= 0) {
+        } else if (item.ItemCountGet <= 0) {
             Console.WriteLine($"Error: You can't add negative / zero ammount of items!");
             return;
         }
 
         // Weight errors
-        if (currentWeight + item.Weight * item.ItemCount > maxWeight) {
+        if (currentWeight + item.Weight * item.ItemCountGet > maxWeight) {
             Console.WriteLine($"Error: The {characterName} can't hold this item(s), it is too heavy!");
             return;
         } else if (item.Weight < 0) {
@@ -154,14 +155,14 @@ public class Character {
         // Checks whether the (stackable) item is alrady in the inventory
         foreach (Item invItem in characterInv) {
             if (item.Name == invItem.Name && item.IsStackable) {
-                invItem.ItemCount += item.ItemCount;
+                invItem.ItemCountSet += item.ItemCountSet;
                 return;
             }
         }
 
         // Adds the item to the inventory
         characterInv.Add(item);
-        currentWeight += item.Weight * item.ItemCount;
+        currentWeight += item.Weight * item.ItemCountGet;
         
         // Item added - debug purposes
         // Console.WriteLine($"Added {item.name} ({item.itemCount} with weight of {item.itemCount * item.weight}), the current weight is {currentWeight}");
@@ -176,7 +177,7 @@ public class Character {
         Console.WriteLine("These are the items in your inventory");
         foreach (Item invItem in characterInv) {
             if (invItem.IsStackable) {
-                Console.WriteLine($"- {invItem.Name} ({invItem.ItemCount})");
+                Console.WriteLine($"- {invItem.Name} ({invItem.ItemCountGet})");
             } else {
                 Console.WriteLine($"- {invItem.Name} (non-stackable)");
             }
@@ -284,11 +285,11 @@ public class Character {
         foreach (Item invItem in characterInv) {
             if (invItem.GetType() == typeof(Coin)) {
                 if (invItem.CType == CoinType.Copper) {
-                    copper = invItem.ItemCount;
+                    copper = invItem.ItemCountGet;
                 } else if (invItem.CType == CoinType.Silver) {
-                    silver = invItem.ItemCount;
+                    silver = invItem.ItemCountGet;
                 } else if (invItem.CType == CoinType.Gold) {
-                    gold = invItem.ItemCount;
+                    gold = invItem.ItemCountGet;
                 }
 
                 if (gold != 0 && silver != 0 && copper != 0) { break; }
@@ -306,19 +307,26 @@ public class Character {
 public class Item {
     protected string name;
     public string Name { get { return name; } }
+
     protected int weight;
     public int Weight { get { return weight; } set { weight = value; } }
-    protected int itemCount;
-    public int ItemCount { get { return itemCount; } set { itemCount = value; } }
-    protected bool isStackable;
+
+    protected bool isStackable = false;
     public bool IsStackable { get { return isStackable; } }
 
-    public Item(string _name, int _weight, int _itemCount, bool _isStackable) {
+    protected int itemCount;
+    public int ItemCountGet { get { return itemCount; } }
+
+    public Item(string _name, int _weight) {
         name = _name;
         weight = _weight;
-        itemCount = _itemCount;
-        isStackable = _isStackable;
+        itemCount = 1;
     }
+
+
+    // ------------------- //
+    // Subclass properties //
+    // ------------------- //
 
     // Weapon
     protected virtual int damage { get; set; }
@@ -335,10 +343,22 @@ public class Item {
     // Coins
     protected virtual CoinType cType { get; set; }
     public virtual CoinType CType { get { return cType; } }
+
+    // Stackable
+    public virtual int ItemCountSet { get; set; }
+}
+
+public class Stackable : Item {
+    public override int ItemCountSet { get { return itemCount; } set { itemCount = value; } }
+
+    public Stackable(string _name, int _weight, int _itemCount) : base(_name, _weight) {
+        itemCount = _itemCount;
+        isStackable = true;
+    }
 }
 
 public class Weapon : Item {
-    public Weapon(string _name, int _weight, int _itemCount, bool _isStackable, int _damage, bool _isTwoHanded) : base(_name, _weight, _itemCount, _isStackable) {
+    public Weapon(string _name, int _weight, int _damage, bool _isTwoHanded) : base(_name, _weight) {
         damage = _damage;
         isTwoHanded = _isTwoHanded;
     }
@@ -346,15 +366,15 @@ public class Weapon : Item {
 
 public enum DefenseType { Shield, Armor }
 public class Defense : Item {
-    public Defense(string _name, int _weight, int _itemCount, bool _isStackable, int _absorption, DefenseType _dType) : base(_name, _weight, _itemCount, _isStackable) {
+    public Defense(string _name, int _weight, int _absorption, DefenseType _dType) : base(_name, _weight) {
         absorption = _absorption;
         dType = _dType;
     }
 }
 
 public enum CoinType { Copper, Silver, Gold }
-public class Coin : Item {
-    public Coin(string _name, int _weight, int _itemCount, bool _isStackable, CoinType _cType) : base(_name, _weight, _itemCount, _isStackable) {
+public class Coin : Stackable {
+    public Coin(string _name, int _weight, int _itemCount, CoinType _cType) : base(_name, _weight, _itemCount) {
         cType = _cType;
         isStackable = true;
 

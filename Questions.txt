@@ -1,6 +1,6 @@
 x	Jak udělat inventory? (arrayList, interface, var)
-x	- do inventáře musí jít vložit jakýkoli item nezávisle na datovém typu			
-x	- nebo si udělat jednotlivý inventář pro každý datový typ >> tohle je asi blbost i guess
+x	- Do inventáře musí jít vložit jakýkoli item nezávisle na datovém typu			
+x	- Nebo si udělat jednotlivý inventář pro každý datový typ >> tohle je asi blbost i guess
 >>>	Polymorphism	
 
 x	Může mít item váhu 0?
@@ -9,15 +9,15 @@ x	Může mít item váhu 0?
 x	Musím testovat i metody, jejichž output závisí na randomizovaných hodnotách / inputu uživatele? (private properties, kde nedává smysl, aby byl get set / Console.ReadKey, nebo Console.ReadLine())
 x	- Například metoda na změnu vybavení
 	  -> Character.ChangeEquipment()
->>>	???
+>>>	Random metody testovat přes seed, metody s inputem netestovat
 
 x	Má být "class pro stohovatelné a nestohovatelné předměty" něco jako class pro Copper / Silver / Gold?
 x	- Vytvořím class která bude dědičná vůči class Item a bude mít nějakou specifickou metodu
 x	  -> Letter : Item > Read()
 x	  -> Food : Item > Eat()
 x	- Nebo to má být uděláno jinak?
->>>	???
+>>>	Ano -> Udělat Stackable : Item a potom přes polymorphism udělat jednotlivé itemy
 
 x	Musí mít class Character hodnoty pro sílu, obratnost, atd.?
-x	- Nebo můžu attack, maxHP a ostatní ranodomizované hodnoty udělat kompleteně randomizované?
->>>	???
+x	- Nebo můžu attack, maxHP a ostatní ranodomizované hodnoty udělat kompleteně náhodně?
+>>>	Ano, musí
