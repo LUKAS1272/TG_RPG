@@ -24,10 +24,10 @@ public class Program {
         currentHero.AddToInv(new Weapon("iron sword", 85, 35, true));
         currentHero.AddToInv(new Defense("iron shield", 90, 35, DefenseType.Shield));
         currentHero.AddToInv(new Defense("iron chestplate", 100, 25, DefenseType.Armor));
-        currentHero.AddToInv(new Coin("", 1, 30, CoinType.Copper));
+        currentHero.AddToInv(new Coin("", 1, 15, CoinType.Copper));
         currentHero.AddToInv(new Coin("", 10, 2, CoinType.Silver));
         currentHero.AddToInv(new Coin("", 100, 1, CoinType.Gold));
-        currentHero.AddToInv(new Coin("", 1, 30, CoinType.Copper));
+        currentHero.AddToInv(new Coin("", 1, 15, CoinType.Copper));
 
         // Second hero inventory init
         nextHero.AddToInv(new Weapon("golden sword", 70, 60, false));
@@ -104,9 +104,12 @@ public class Character {
     private string characterName;
     public string CharacterName { get { return characterName; } }
     
+    private double endurance; // maxHP is based on this variable
+    private double strength; // maxWeight is based on this variable
+
+    private int maxHealth;
     private int health;
     public int Health { get { return health; } set { health = value; } }
-    private int maxHealth;
 
     // Inventory settings
     private int maxWeight;
@@ -120,18 +123,22 @@ public class Character {
 
     public Character(string _characterName) {
         characterName = _characterName;
-
         Random rnd = new Random(Program.rndSeed);
-        maxHealth = rnd.Next(300, 501);
-        health = maxHealth;
 
-        maxWeight = rnd.Next(500, 751);
+        endurance = (double)rnd.Next(75, 151) / 100;
+        strength = (double)rnd.Next(75, 151) / 100;
+
+        maxHealth = (int)(400 * endurance);
+        health = maxHealth;
+        maxWeight = (int)(800 * strength);
     }
 
     public void WriteStats() {
         Console.WriteLine($"Name: {characterName}");
-        Console.WriteLine($"Hero HP: {health} / {maxHealth}");
+        Console.WriteLine($"HP: {health} / {maxHealth}");
         Console.WriteLine($"Inventory weight: {currentWeight} / {maxWeight}");
+        Console.WriteLine($"Endurance multiplayer: {endurance}x");
+        Console.WriteLine($"Strength multiplayer: {strength}x");
 
         Console.WriteLine();
         WriteEquipment();
