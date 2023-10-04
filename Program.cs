@@ -13,6 +13,7 @@ namespace TGproject;
 // Coin - name, weight, itemCount, isStackable, CoinType
  
 public class Program {
+    // Add test mode variable (whether to generate random numbers based on seed -> same hero stats)
     public static int rndSeed = new Random().Next(); // Seed for all random numbers > unit tests purpose
 
     static Character currentHero = new Character("mighty knight");
@@ -30,13 +31,14 @@ public class Program {
         currentHero.AddToInv(new Coin("", 1, 15, CoinType.Copper));
 
         // Second hero inventory init
-        nextHero.AddToInv(new Weapon("golden sword", 70, 60, false));
-        nextHero.AddToInv(new Weapon("iron sword", 85, 80, true));
-        nextHero.AddToInv(new Defense("iron shield", 90, 90, DefenseType.Shield));
-        nextHero.AddToInv(new Defense("iron chestplate", 100, 100, DefenseType.Armor));
-        nextHero.AddToInv(new Coin("", 1, 30, CoinType.Copper));
+        nextHero.AddToInv(new Weapon("golden sword", 70, 15, false));
+        nextHero.AddToInv(new Weapon("iron sword", 85, 35, true));
+        nextHero.AddToInv(new Defense("iron shield", 90, 35, DefenseType.Shield));
+        nextHero.AddToInv(new Defense("iron chestplate", 100, 25, DefenseType.Armor));
+        nextHero.AddToInv(new Coin("", 1, 15, CoinType.Copper));
         nextHero.AddToInv(new Coin("", 10, 2, CoinType.Silver));
         nextHero.AddToInv(new Coin("", 100, 1, CoinType.Gold));
+        nextHero.AddToInv(new Coin("", 1, 15, CoinType.Copper));
 
         Console.WriteLine("\n\nPress any key to start the game!");
         Console.ReadKey();
@@ -128,7 +130,7 @@ public class Character {
         endurance = (double)rnd.Next(75, 151) / 100;
         strength = (double)rnd.Next(75, 151) / 100;
 
-        maxHealth = (int)(400 * endurance);
+        maxHealth = (int)(1000 * endurance);
         health = maxHealth;
         maxWeight = (int)(800 * strength);
     }
@@ -267,7 +269,7 @@ public class Character {
         
     }
 
-    public void Attack(Character aim, bool isRecursion) {
+    public void Attack(Character aim, bool isDefense) {
         int absorptionPercent = 0;
         if (aim.chest != null) { absorptionPercent += aim.chest.Absorption; }
         if (aim.rightHand != null) { absorptionPercent += aim.rightHand.Absorption; }
@@ -279,7 +281,8 @@ public class Character {
         if (leftHand != null) { damageDealt = (int)(rndNum * leftHand.Damage * (100 - absorptionPercent) / 100); }
         else { damageDealt = (int)(rndNum * 2 * (100 - absorptionPercent) / 100); }
 
-        if (isRecursion) { damageDealt /= 2; }
+        if (isDefense) { damageDealt = (int)(damageDealt * strength); }
+        else { damageDealt = (int)(damageDealt * endurance / 2); }
 
         aim.health -= damageDealt;
         if (aim.health < 0) { aim.health = 0; }
@@ -287,7 +290,7 @@ public class Character {
 
         if (aim.health == 0) { Console.WriteLine($"{characterName} won the game!"); }
 
-        if (isRecursion) { return; }
+        if (isDefense) { return; }
         else if (aim.health != 0) { aim.Attack(this, true); }
     }
 

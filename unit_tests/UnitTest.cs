@@ -149,11 +149,15 @@ public class UnitTests {
         Console.SetOut(stringWriter);
 
         Character hero = new Character("hero");
+        
         Random rnd = new Random(Program.rndSeed);
+        double endurance = (double)rnd.Next(75, 151) / 100;
+        double strength = (double)rnd.Next(75, 151) / 100;
+        int maxHealth = (int)(1000 * endurance);
+        int maxWeight = (int)(800 * strength);
         hero.WriteStats();
 
-        int maxHealth = rnd.Next(300, 501);
-        Assert.Equal($"Name: {hero.CharacterName}\nHero HP: {maxHealth} / {maxHealth}\nInventory weight: 0 / {rnd.Next(500, 751)}\n\nNo weapon equiped\nNo shield equiped\nNo armor equiped\n\n", stringWriter.ToString());
+        Assert.Equal($"Name: {hero.CharacterName}\nHP: {maxHealth} / {maxHealth}\nInventory weight: 0 / {maxWeight}\nEndurance multiplayer: {endurance}x\nStrength multiplayer: {strength}x\n\nNo weapon equiped\nNo shield equiped\nNo armor equiped\n\n", stringWriter.ToString());
     }
 
     [Fact] // Pass
@@ -167,10 +171,14 @@ public class UnitTests {
         hero.AddToInv(new Stackable("genericItem", 15, 10));
         hero.AddToInv(new Stackable("genericItem2", 10, 5));
         hero.AddToInv(new Item("genericItem3", 10));
+
         Random rnd = new Random(Program.rndSeed);
+        double endurance = (double)rnd.Next(75, 151) / 100;
+        double strength = (double)rnd.Next(75, 151) / 100;
+        int maxHealth = (int)(1000 * endurance);
+        int maxWeight = (int)(800 * strength);
         hero.WriteStats();
 
-        int maxHealth = rnd.Next(300, 501);
-        Assert.Equal($"Name: {hero.CharacterName}\nHero HP: {maxHealth} / {maxHealth}\nInventory weight: 410 / {rnd.Next(500, 751)}\n\nNo weapon equiped\nNo shield equiped\nNo armor equiped\n\n", stringWriter.ToString());
+        Assert.Equal($"Name: {hero.CharacterName}\nHP: {maxHealth} / {maxHealth}\nInventory weight: 410 / {maxWeight}\nEndurance multiplayer: {endurance}x\nStrength multiplayer: {strength}x\n\nNo weapon equiped\nNo shield equiped\nNo armor equiped\n\n", stringWriter.ToString());
     }
 }
