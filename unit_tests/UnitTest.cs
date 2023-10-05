@@ -11,7 +11,7 @@ public class UnitTests {
         Console.SetOut(stringWriter);
 
         Character hero = new Character("hero");
-        hero.AddToInv(new Stackable("genericItem", 1000, 1)); // Error
+        hero.AddToInv(new Stackable("genericItem", 1500, 1)); // Error
 
         Assert.Equal("Error: The hero can't hold this item(s), it is too heavy!\n", stringWriter.ToString());
     }
@@ -22,7 +22,7 @@ public class UnitTests {
         Console.SetOut(stringWriter);
 
         Character hero = new Character("hero");
-        hero.AddToInv(new Stackable("genericItem", 100, 10)); // Error
+        hero.AddToInv(new Stackable("genericItem", 100, 13)); // Error
 
         Assert.Equal("Error: The hero can't hold this item(s), it is too heavy!\n", stringWriter.ToString());
     }
@@ -34,7 +34,7 @@ public class UnitTests {
 
         Character hero = new Character("hero");
         hero.AddToInv(new Stackable("genericItem", 100, 5));
-        hero.AddToInv(new Stackable("genericItem", 100, 5)); // Error
+        hero.AddToInv(new Stackable("genericItem", 100, 8)); // Error
 
         Assert.Equal("Error: The hero can't hold this item(s), it is too heavy!\n", stringWriter.ToString());
     }
