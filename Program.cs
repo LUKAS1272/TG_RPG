@@ -29,6 +29,8 @@ public class Program {
         currentHero.AddToInv(new Coin("", 10, 2, CoinType.Silver));
         currentHero.AddToInv(new Coin("", 100, 1, CoinType.Gold));
         currentHero.AddToInv(new Coin("", 1, 15, CoinType.Copper));
+        currentHero.AddToInv(new Letter("basic letter", 10, "Some letter text..."));
+        currentHero.AddToInv(new Food("cooked beef", 1, 2, 10));
 
         // Second hero inventory init
         nextHero.AddToInv(new Weapon("golden sword", 70, 15, false));
@@ -55,6 +57,7 @@ public class Program {
         Console.WriteLine("a - attack");
         Console.WriteLine("c - change your equipment");
         Console.WriteLine("m - see how much money you have in total");
+        Console.WriteLine("u - use item");
         Console.WriteLine("e - exit game");
         Console.WriteLine("--------------------------------------------------------------------");
 
@@ -79,6 +82,9 @@ public class Program {
                 break;
             case ConsoleKey.M:
                 currentHero.AllMoney();
+                break;
+            case ConsoleKey.U:
+                currentHero.UseItem();
                 break;
             case ConsoleKey.E:
                 Console.WriteLine("Turning the game off...");
@@ -184,6 +190,10 @@ public class Character {
         // Console.WriteLine($"Added {item.name} ({item.itemCount} with weight of {item.itemCount * item.weight}), the current weight is {currentWeight}");
     }
 
+    public void RemoveFromInv(Item item) {
+        characterInv.RemoveAt(characterInv.IndexOf(item));
+    }
+
     public void WriteInv() {
         if (characterInv.Count == 0) {
             Console.WriteLine("You have no items in your inventory at the moment");
@@ -265,6 +275,36 @@ public class Character {
 
             Console.WriteLine();
             WriteEquipment();
+        } else {
+            Console.WriteLine("\nError: Invalid number");
+        }
+        
+    }
+
+    public void UseItem() {
+        int index = -1;
+        List<Item> itemSelection = new List<Item>();
+        foreach (Item invItem in characterInv) {
+            if (invItem.GetType() == typeof(Letter) || invItem.GetType() == typeof(Food)) {
+                itemSelection.Add(invItem);
+                Console.WriteLine($"{++index} - {invItem.Name} ");
+            }
+        }
+
+        if (index == -1) {
+            Console.WriteLine("There are no items in your inventory that you could use!");
+            return;
+        }
+
+        Console.Write("Choose, which item you want to use (write number and confirm by enter): ");
+        int num;
+        if (int.TryParse(Console.ReadLine(), out num) && num >= 0 && num <= index) {
+            if (itemSelection.ElementAt(num).GetType() == typeof(Letter)) {
+                itemSelection.ElementAt(num).Read();
+            } else if (itemSelection.ElementAt(num).GetType() == typeof(Food)) {
+                health += itemSelection.ElementAt(num).Eat(this);
+                if (health > maxHealth) { health = maxHealth; }
+            }
         } else {
             Console.WriteLine("\nError: Invalid number");
         }
@@ -363,6 +403,10 @@ public class Item {
 
     // Stackable
     public virtual int ItemCountSet { get; set; }
+
+    // Usable
+    public virtual void Read() {}
+    public virtual int Eat(Character hero) { return -1; }
 }
 
 public class Stackable : Item {
@@ -405,5 +449,34 @@ public class Coin : Stackable {
             name = "gold";
             weight = 100;
         }
+    }
+}
+
+public class Letter : Item {
+    string letterText;
+
+    public Letter(string _name, int _weight, string _letterText) : base(_name, _weight) {
+        letterText = _letterText;
+        weight = 0;
+    }
+
+    public override void Read() {
+        Console.WriteLine($"\n{letterText}");
+    }
+}
+
+public class Food : Stackable {
+    int regeneration;
+
+    public Food(string _name, int _weight, int _itemCount, int _regeneration) : base(_name, _weight, _itemCount) {
+        regeneration = _regeneration;
+    }
+
+    public override int Eat(Character hero) {
+        itemCount--;
+        Console.WriteLine($"\n{hero.CharacterName} just got healed {regeneration} HP by eating {name}");
+
+        if (itemCount == 0) { hero.RemoveFromInv(this); }
+        return regeneration;
     }
 }
