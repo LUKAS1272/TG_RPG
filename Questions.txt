@@ -1,23 +1,22 @@
-x	Jak udělat inventory? (arrayList, interface, var)
-x	- Do inventáře musí jít vložit jakýkoli item nezávisle na datovém typu			
-x	- Nebo si udělat jednotlivý inventář pro každý datový typ >> tohle je asi blbost i guess
+x	How to create an inventory system? (arrayList, interface, var)
+x	- The inventory has to be able to hold any item regardless of the data type			
 >>>	Polymorphism	
 
-x	Může mít item váhu 0?
->>>	Ano
+x	Can an item have a weight of 0?
+>>>	Yes
 
-x	Musím testovat i metody, jejichž output závisí na randomizovaných hodnotách / inputu uživatele? (private properties, kde nedává smysl, aby byl get set / Console.ReadKey, nebo Console.ReadLine())
-x	- Například metoda na změnu vybavení
-	  -> Character.ChangeEquipment()
->>>	Random metody testovat přes seed, metody s inputem netestovat
+x	Do I have to unit test the methods, that are dependent on:
+x 	- Random values (private properties, for which it doesn't make sense to have a get set)
+x	- User input (Console.ReadKey, Console.ReadLine)
+x		-> For example Character.ChangeEquipment()
+>>> Test random methods using seed, don't test input dependent methods
 
-x	Má být "class pro stohovatelné a nestohovatelné předměty" něco jako class pro Copper / Silver / Gold?
-x	- Vytvořím class která bude dědičná vůči class Item a bude mít nějakou specifickou metodu
+x	Is "class for stackable an unstackable items" supposed to be something like class for Copper / Silver / Gold?
+x	- I will create a class hereditary towards the class Item and it will have some specific method
 x	  -> Letter : Item > Read()
 x	  -> Food : Item > Eat()
-x	- Nebo to má být uděláno jinak?
->>>	Ano -> Udělat Stackable : Item a potom přes polymorphism udělat jednotlivé itemy
+>>>	Yes -> Create Stackable : Item and then using polymorphism create an individual items
 
-x	Musí mít class Character hodnoty pro sílu, obratnost, atd.?
-x	- Nebo můžu attack, maxHP a ostatní ranodomizované hodnoty udělat kompleteně náhodně?
->>>	Ano, musí
+x	Does class Character have to have values for strength, endurance, etc.?
+x	- Or can I make attack, maxHP, and other random values fully random?
+>>>	Yes, it does have to
