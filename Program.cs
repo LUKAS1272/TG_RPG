@@ -13,7 +13,7 @@ namespace TGproject;
 // Coin - name, weight, itemCount, isStackable, CoinType
  
 public class Program {
-    // Add test mode variable (whether to generate random numbers based on seed -> same hero stats)
+    public static bool testMode = false;
     public static int rndSeed = new Random().Next(); // Seed for all random numbers > unit tests purpose
 
     static Character currentHero = new Character("mighty knight");
@@ -125,7 +125,9 @@ public class Character {
 
     public Character(string _characterName) {
         characterName = _characterName;
-        Random rnd = new Random(Program.rndSeed);
+
+        Random rnd = new Random();
+        if (Program.testMode) { rnd = new Random(Program.rndSeed); }
 
         endurance = (double)rnd.Next(75, 151) / 100;
         strength = (double)rnd.Next(75, 151) / 100;
