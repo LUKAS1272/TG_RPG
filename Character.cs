@@ -120,8 +120,9 @@ public class Character {
         Console.WriteLine();
     }
 
-    public void ChangeEquipment() {
+    public void UseItem() {
         WriteEquipment();
+        Console.WriteLine($"HP: {health} / {maxHealth}\n");
 
         int index = -1;
         List<Item> itemSelection = new List<Item>();
@@ -140,63 +141,40 @@ public class Character {
                 } else {
                     Console.WriteLine();
                 }
-            }
-        }
-
-        if (index == -1) {
-            Console.WriteLine("There is no equipment available in your inventory!");
-            return;
-        }
-
-        Console.Write("Choose, which item you want to equip (write number and confirm by enter): ");
-        int num;
-        if (int.TryParse(Console.ReadLine(), out num) && num >= 0 && num <= index) {
-            if (itemSelection.ElementAt(num).GetType() == typeof(Weapon)) {
-                leftHand = itemSelection.ElementAt(num);
-                if (itemSelection.ElementAt(num).IsTwoHanded) {
-                    rightHand = null!;
-                }
-            } else if (itemSelection.ElementAt(num).DType == DefenseType.Shield) {
-                rightHand = itemSelection.ElementAt(num);
-                if (leftHand != null && leftHand.IsTwoHanded) {
-                    leftHand = null!;
-                }
-            } else if (itemSelection.ElementAt(num).DType == DefenseType.Armor) {
-                chest = itemSelection.ElementAt(num);
-            }
-
-            Console.WriteLine();
-            WriteEquipment();
-        } else {
-            Console.WriteLine("\nError: Invalid number");
-        }
-        
-    }
-
-    public void UseItem() {
-        int index = -1;
-        List<Item> itemSelection = new List<Item>();
-        foreach (Item invItem in characterInv) {
-            if (invItem.GetType() == typeof(Letter) || invItem.GetType() == typeof(Food)) {
+            } else if (invItem.GetType() == typeof(Letter)) {
                 itemSelection.Add(invItem);
-                Console.WriteLine($"{++index} - {invItem.Name} ");
+                Console.WriteLine($"{++index} - {invItem.Name}");
+            } else if (invItem.GetType() == typeof(Food)) {
+                itemSelection.Add(invItem);
+                Console.WriteLine($"{++index} - {invItem.Name} ({invItem.ItemCountGet} left)");
             }
         }
 
         if (index == -1) {
-            Console.WriteLine("There are no items in your inventory that you could use!");
+            Console.WriteLine("There are no usable items available in your inventory!");
             return;
         }
 
         Console.Write("Choose, which item you want to use (write number and confirm by enter): ");
         int num;
         if (int.TryParse(Console.ReadLine(), out num) && num >= 0 && num <= index) {
-            if (itemSelection.ElementAt(num).GetType() == typeof(Letter)) {
+            if (itemSelection.ElementAt(num).GetType() == typeof(Food)) {
+                itemSelection.ElementAt(num).Eat(this);
+            } else if (itemSelection.ElementAt(num).GetType() == typeof(Letter)) {
                 itemSelection.ElementAt(num).Read();
-            } else if (itemSelection.ElementAt(num).GetType() == typeof(Food)) {
-                health += itemSelection.ElementAt(num).Eat(this);
-                if (health > maxHealth) { health = maxHealth; }
+            } else if (itemSelection.ElementAt(num).GetType() == typeof(Weapon)) {
+                leftHand = itemSelection.ElementAt(num);
+                if (itemSelection.ElementAt(num).IsTwoHanded) { rightHand = null!; }
+            } else if (itemSelection.ElementAt(num).DType == DefenseType.Shield) {
+                rightHand = itemSelection.ElementAt(num);
+                if (leftHand != null && leftHand.IsTwoHanded) { leftHand = null!; }
+            } else if (itemSelection.ElementAt(num).DType == DefenseType.Armor) {
+                chest = itemSelection.ElementAt(num);
             }
+
+            Console.WriteLine();
+            WriteEquipment();
+            Console.WriteLine($"HP: {health} / {maxHealth}");
         } else {
             Console.WriteLine("\nError: Invalid number");
         }
