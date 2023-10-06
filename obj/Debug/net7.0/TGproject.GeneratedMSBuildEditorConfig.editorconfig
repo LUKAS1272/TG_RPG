@@ -8,4 +8,4 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = TGproject
-build_property.ProjectDir = /media/lukas1272/3461-1B43/1_CS/TG_Project_tests/
+build_property.ProjectDir = /home/lukas1272/Desktop/TG_RPG/

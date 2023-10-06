@@ -10,7 +10,9 @@ namespace TGproject;
 // Stackable - name, weight, itemCount
 // Weapon - name, weight, damage, isTwoHanded
 // Defense - name, weight, absorption, DefenseType
-// Coin - name, weight, itemCount, isStackable, CoinType
+// Coin - name, weight, itemCount, CoinType
+// Letter - name, weight, letterText
+// Food - name, weight, itemCount, regeneration
  
 public class Program {
     public static bool testMode = false;
@@ -55,9 +57,8 @@ public class Program {
         Console.WriteLine("i - write out inventory");
         Console.WriteLine("s - write out your hero stats");
         Console.WriteLine("a - attack");
-        Console.WriteLine("c - change your equipment");
+        Console.WriteLine("u - use item (change equipment, eat food, read a letter)");
         Console.WriteLine("m - see how much money you have in total");
-        Console.WriteLine("u - use item");
         Console.WriteLine("e - exit game");
         Console.WriteLine("--------------------------------------------------------------------");
 
@@ -77,14 +78,11 @@ public class Program {
                 if (currentHero.Health == 0 || nextHero.Health == 0) { return; }
                 SwitchTurn();
                 break;
-            case ConsoleKey.C:
-                currentHero.ChangeEquipment();
+            case ConsoleKey.U:
+                currentHero.UseItem();
                 break;
             case ConsoleKey.M:
                 currentHero.AllMoney();
-                break;
-            case ConsoleKey.U:
-                currentHero.UseItem();
                 break;
             case ConsoleKey.E:
                 Console.WriteLine("Turning the game off...");

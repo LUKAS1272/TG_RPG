@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/unit_tests/unit_tests.csproj": {}
+    "/home/lukas1272/Desktop/TG_RPG/unit_tests/unit_tests.csproj": {}
   },
   "projects": {
-    "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/TGproject.csproj": {
+    "/home/lukas1272/Desktop/TG_RPG/TGproject.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/TGproject.csproj",
+        "projectUniqueName": "/home/lukas1272/Desktop/TG_RPG/TGproject.csproj",
         "projectName": "TGproject",
-        "projectPath": "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/TGproject.csproj",
+        "projectPath": "/home/lukas1272/Desktop/TG_RPG/TGproject.csproj",
         "packagesPath": "/home/lukas1272/.nuget/packages/",
-        "outputPath": "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/obj/",
+        "outputPath": "/home/lukas1272/Desktop/TG_RPG/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/lukas1272/.nuget/NuGet/NuGet.Config"
@@ -63,14 +63,14 @@
         }
       }
     },
-    "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/unit_tests/unit_tests.csproj": {
+    "/home/lukas1272/Desktop/TG_RPG/unit_tests/unit_tests.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/unit_tests/unit_tests.csproj",
+        "projectUniqueName": "/home/lukas1272/Desktop/TG_RPG/unit_tests/unit_tests.csproj",
         "projectName": "unit_tests",
-        "projectPath": "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/unit_tests/unit_tests.csproj",
+        "projectPath": "/home/lukas1272/Desktop/TG_RPG/unit_tests/unit_tests.csproj",
         "packagesPath": "/home/lukas1272/.nuget/packages/",
-        "outputPath": "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/unit_tests/obj/",
+        "outputPath": "/home/lukas1272/Desktop/TG_RPG/unit_tests/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/lukas1272/.nuget/NuGet/NuGet.Config"
@@ -85,8 +85,8 @@
           "net7.0": {
             "targetAlias": "net7.0",
             "projectReferences": {
-              "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/TGproject.csproj": {
-                "projectPath": "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/TGproject.csproj"
+              "/home/lukas1272/Desktop/TG_RPG/TGproject.csproj": {
+                "projectPath": "/home/lukas1272/Desktop/TG_RPG/TGproject.csproj"
               }
             }
           }

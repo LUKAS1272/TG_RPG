@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "pp2AgRjTZeWYKYy2gplOqcanTEyzZSanNvAMDkNazHHu8vVbyXYD5SYJ2Gnmy1MoQxeBzpRvF+GYGL5vS8wFTA==",
+  "dgSpecHash": "i2DiWrjHPV7pTkOuaSo0B1z3/15y0BN9tFm8ZuG8RolUXpiNmk781ClNMBGLXBKCnA/RrOyiPgj1x3nf3Udb9w==",
   "success": true,
-  "projectFilePath": "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/unit_tests/unit_tests.csproj",
+  "projectFilePath": "/home/lukas1272/Desktop/TG_RPG/unit_tests/unit_tests.csproj",
   "expectedPackageFiles": [
     "/home/lukas1272/.nuget/packages/coverlet.collector/3.2.0/coverlet.collector.3.2.0.nupkg.sha512",
     "/home/lukas1272/.nuget/packages/microsoft.codecoverage/17.7.1/microsoft.codecoverage.17.7.1.nupkg.sha512",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "rHhzBz0MNYxZS8VkxHJL/ERJd0tGyGAcedgTTPgCzKlk8rgieqvqyNsr8EybZ7cd/eihQexBTJW6CbZjZ6f/nw==",
+  "dgSpecHash": "2assr5T+xvWseA3rDsQB5tMFEaqvDYnVTSddUV+ncCLMZWccrwjHMGafmPv3T2JIJJbHmtvQafNCDvIfdJgxlg==",
   "success": true,
-  "projectFilePath": "/media/lukas1272/3461-1B43/1_CS/TG_Project_tests/TGproject.csproj",
+  "projectFilePath": "/home/lukas1272/Desktop/TG_RPG/TGproject.csproj",
   "expectedPackageFiles": [
     "/home/lukas1272/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "/home/lukas1272/.nuget/packages/microsoft.netcore.targets/1.1.0/microsoft.netcore.targets.1.1.0.nupkg.sha512",
