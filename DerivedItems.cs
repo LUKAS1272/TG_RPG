@@ -43,7 +43,9 @@ public class Letter : Item {
     }
 
     public override void Read() {
-        Console.WriteLine($"\n{letterText}");
+        Console.WriteLine("\n--------------------------------------------------------------------");
+        Console.WriteLine($"{letterText}");
+        Console.WriteLine("--------------------------------------------------------------------");
     }
 }
 
